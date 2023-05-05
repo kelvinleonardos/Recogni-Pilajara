@@ -8,8 +8,8 @@ from PIL import Image, ImageTk
 from customtkinter import filedialog
 # from firebase_admin import credentials
 # from firebase_admin import db
-
 class App(ctk.CTk):
+
 
     def __init__(self):
         super().__init__()
@@ -19,6 +19,7 @@ class App(ctk.CTk):
         self.container_mainPage = ctk.CTkFrame(self)
         self.container_addPage = ctk.CTkFrame(self)
 
+        self.user_NIM = "ASU"
 
         # Main Page LFramePg_Main
         self.Lframe_pgmain = ctk.CTkFrame(self.container_mainPage, corner_radius=0, width=300)
@@ -111,7 +112,7 @@ class App(ctk.CTk):
         # Frame Frame Form
         self.img = ctk.CTkImage(dark_image=Image.open('Resources/FormPhoto.png'))
         self.buttonpict = ctk.CTkButton(self.container_addPage, text='FOTO', height=300, width=300, corner_radius=20,
-                                        image=self.img)
+                                        image=self.img, command=self.openPhoto)
         self.buttonpict.grid(row=0, column=1, padx=110, pady=(1, 0))
 
         self.frameform = ctk.CTkFrame(self.container_addPage, width=470, height=1080, corner_radius=0,
@@ -180,11 +181,13 @@ class App(ctk.CTk):
         self.container_addPage.grid(row=0, columns=1, sticky='nsew')
         self.container_mainPage.grid_forget()
 
-    # def Save_data(self):
-    #     self.user_name = self.nameEntry.get()
-    #     self.user_NIM = self.nimEntry.get()
-    #     self.user_Gender = self.genderVar.get()
-    #     self.user_Major = self.majorVar.get()
+    def Save_data(self):
+        self.user_name = self.nameEntry.get()
+        self.user_NIM = self.nimEntry.get()
+        self.user_Gender = self.genderVar.get()
+        self.user_Major = self.majorVar.get()
+
+        print()
     #
     #     self.cred = credentials.Certificate("path/to/serviceAccountKey.json")
     #     firebase_admin.initialize_app(self.cred, {
@@ -201,13 +204,15 @@ class App(ctk.CTk):
     #     }
     #
     #     self.ref.push(data)
-    # def openPhoto(self):
-    #     self.sep = r"\""
-    #
-    #     self.file_path = filedialog.askopenfilename()
-    #     self.new_file_path = list(map(str, self.file_path.split(self.sep)))
-    #     self.new_file_path[-1] = self.user_NIM
-    #
+    def openPhoto(self):
+        self.file_path = filedialog.askopenfilename()
+        self.file_path = list(map(str, self.file_path.split('/')))
+        self.file_path = "\\".join(self.file_path)
+        # self.new_file_path = list(map(str, self.file_path.split(self.sep)))
+        # self.new_file_path[-1] = self.user_NIM
+
+        print(self.file_path)
+
     #     self.new_file_path = os.rename(self.file_path, self.sep.join(self.new_file_path))
     #     self.destination = "D:\Programming\Project\LIDM-ITDP-2023\GUI\Recogni Pilajara\Profile"
     #     self.listOfdata = os.listdir(self.destination)
